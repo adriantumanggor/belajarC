@@ -7,6 +7,7 @@
 void menu(MYSQL *conn)
 {
     int menu_option;
+    
     printf("HITUNG \n");
     printf("1). Makan\n");
     printf("2). Etc\n");
