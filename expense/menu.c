@@ -20,7 +20,7 @@ void menu(MYSQL *conn)
         hitung_makan(conn);
         break;
     case 2:
-        menu_etc(conn);
+        etc(conn);
         break;
     case 3:
         exit(0);
@@ -55,7 +55,7 @@ void hitung_makan(MYSQL *conn)
     menu(conn);
 }
 
-void menu_etc(MYSQL *conn)
+void etc(MYSQL *conn)
 {
     Etc etc;
     int pilih;
