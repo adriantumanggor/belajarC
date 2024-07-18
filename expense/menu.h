@@ -5,7 +5,6 @@
 
 void menu(MYSQL *conn);
 void hitung_makan(MYSQL *conn);
-void etc(MYSQL *conn);
-
+void hitung_etc(MYSQL *conn);
 
 #endif
