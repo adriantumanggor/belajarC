@@ -3,8 +3,8 @@
 
 #include <mysql/mysql.h>
 
-void menu(MYSQL *conn);
+void menu(MYSQL *conn, const char *dateStr);
 void makan_menu(MYSQL *conn, const char *dateStr);
 void etc_menu(MYSQL *conn, const char *dateStr);
 
-#endif
+#endif // MENU_H

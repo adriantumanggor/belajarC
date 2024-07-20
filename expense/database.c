@@ -12,6 +12,6 @@ void insert_data(MYSQL *conn, const char *query)
     }
     else
     {
-        printf("Data inserted successfully.\n");
+        printf("Data inserted successfully.\n\n");
     }
 }

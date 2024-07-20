@@ -1,6 +1,6 @@
 #include "date.h"
 #include <stdio.h>
-#include <stdlib.h> // For malloc
+#include <stdlib.h>
 #include <time.h>
 
 void getToday(int *day, int *month, int *year)
@@ -50,6 +50,7 @@ char* selectDate()
     }
 
     char *dateStr = malloc(11 * sizeof(char)); // Allocate memory for the date string
+    
     if (dateStr == NULL)
     {
         fprintf(stderr, "Memory allocation failed\n");

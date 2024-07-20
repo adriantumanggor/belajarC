@@ -6,11 +6,9 @@
 #include <stdlib.h>
 #include <mysql/mysql.h>
 
-void menu(MYSQL *conn)
+void menu(MYSQL *conn, const char *dateStr)
 {
     int menu_option;
-    char *dateStr = selectDate();
-    printf("Selected date: %s\n", dateStr);
 
     printf("HITUNG \n");
     printf("1). Makan\n");
@@ -28,17 +26,13 @@ void menu(MYSQL *conn)
         etc_menu(conn, dateStr);
         break;
     case 3:
-        free(dateStr); // Free allocated memory before exiting
         exit(0);
         break;
     default:
         printf("Pilihan tidak ada\n");
-        free(dateStr); // Free allocated memory in case of re-calling menu
-        menu(conn);
+        menu(conn, dateStr);
         break;
     }
-
-    free(dateStr); // Free allocated memory after using it
 }
 
 void makan_menu(MYSQL *conn, const char *dateStr)
@@ -61,7 +55,7 @@ void makan_menu(MYSQL *conn, const char *dateStr)
         hitung_makan(conn, makan_option, dateStr);
         break;
     case 4:
-        menu(conn);
+        menu(conn, dateStr);
         break;
     default:
         printf("Pilihan tidak ada\n");
@@ -92,7 +86,7 @@ void etc_menu(MYSQL *conn, const char *dateStr)
         hitung_etc(conn, etc_option, dateStr);
         break;
     case 5:
-        menu(conn);
+        menu(conn, dateStr);
         break;
     default:
         printf("Pilihan tidak ada\n");

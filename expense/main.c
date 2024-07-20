@@ -12,13 +12,19 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    if (mysql_real_connect(conn, "localhost", "c_appuser", "c_app", "expenses_db", 0, NULL, 0) == NULL) {
+    if (mysql_real_connect(conn, "localhost", "c_appuser", "c_app", "expense", 0, NULL, 0) == NULL) {
         fprintf(stderr, "mysql_real_connect() failed\n");
         mysql_close(conn);
         return EXIT_FAILURE;
     }
 
-    menu(conn);
+    // Moved the code from menu function here
+    char *dateStr = selectDate();
+    printf("Selected date: %s\n", dateStr);
+
+    menu(conn, dateStr);
+
+    free(dateStr); // Free allocated memory before exiting
     mysql_close(conn);
     return EXIT_SUCCESS;
 }

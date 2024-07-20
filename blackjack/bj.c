@@ -9,8 +9,6 @@ char deck[52] = {'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'
 
 void shuffle();
 
-int getValue(char card);
-
 int main() {
     // Shuffle the deck
     srand(time(NULL));

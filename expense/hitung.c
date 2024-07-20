@@ -34,4 +34,6 @@ void hitung_etc(MYSQL *conn, int option, const char *dateStr)
     snprintf(query, sizeof(query), "INSERT INTO transactions (date, amount, category_id) VALUES ('%s', %d, %d)", dateStr, amount, category_id);
 
     insert_data(conn, query);
+
+    
 }
