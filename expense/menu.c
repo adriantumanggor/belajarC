@@ -53,6 +53,7 @@ void makan_menu(MYSQL *conn, const char *dateStr)
     case 2:
     case 3:
         hitung_makan(conn, makan_option, dateStr);
+        
         makan_menu(conn, dateStr);
         break;
     case 4:
