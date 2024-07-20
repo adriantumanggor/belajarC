@@ -4,7 +4,7 @@
 #include <mysql/mysql.h>
 
 void menu(MYSQL *conn);
-void hitung_makan(MYSQL *conn);
-void hitung_etc(MYSQL *conn);
+void makan_menu(MYSQL *conn, const char *dateStr);
+void etc_menu(MYSQL *conn, const char *dateStr);
 
 #endif

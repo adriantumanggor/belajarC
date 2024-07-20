@@ -5,4 +5,4 @@
 
 void insert_data(MYSQL *conn, const char *query);
 
-#endif
+#endif // DATABASE_H

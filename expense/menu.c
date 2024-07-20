@@ -1,13 +1,17 @@
 #include "menu.h"
 #include "database.h"
-#include "types.h"
-#include <time.h>
+#include "hitung.h"
+#include "date.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <mysql/mysql.h>
 
 void menu(MYSQL *conn)
 {
     int menu_option;
+    char *dateStr = selectDate();
+    printf("Selected date: %s\n", dateStr);
+
     printf("HITUNG \n");
     printf("1). Makan\n");
     printf("2). Etc\n");
@@ -18,119 +22,81 @@ void menu(MYSQL *conn)
     switch (menu_option)
     {
     case 1:
-        hitung_makan(conn);
+        makan_menu(conn, dateStr);
         break;
     case 2:
-        hitung_etc(conn);
+        etc_menu(conn, dateStr);
         break;
     case 3:
+        free(dateStr); // Free allocated memory before exiting
         exit(0);
         break;
     default:
         printf("Pilihan tidak ada\n");
+        free(dateStr); // Free allocated memory in case of re-calling menu
         menu(conn);
         break;
     }
+
+    free(dateStr); // Free allocated memory after using it
 }
 
-void hitung_makan(MYSQL *conn)
+void makan_menu(MYSQL *conn, const char *dateStr)
 {
-    Makan makan;
+    int makan_option;
 
-    printf("Makan Pagi: ");
-    scanf("%d", &makan.pagi);
-
-    printf("Makan Siang: ");
-    scanf("%d", &makan.siang);
-
-    printf("Makan Malem: ");
-    scanf("%d", &makan.malem);
-
-    int total = makan.pagi + makan.siang + makan.malem;
-    printf("Total: %d\n", total);
-
-    char query[512];
-
-    char date_str[11];
-    time_t now = time(NULL);
-    struct tm *local_time = localtime(&now);
-    strftime(date_str, sizeof(date_str), "%Y-%m-%d", local_time);
-
-    snprintf(query, sizeof(query),
-             "INSERT INTO makan (pagi, siang, malem, total, date) VALUES (%d, %d, %d, %d, '%s')",
-             makan.pagi, makan.siang, makan.malem, total, date_str);
-    insert_data(conn, query);
-
-    menu(conn);
-}
-
-void hitung_etc(MYSQL *conn)
-{
-    Etc etc;
-    int pilih;
-
-    printf("\nPILIHAN\n");
-    printf("1). Galon\n");
-    printf("2). Kuota\n");
-    printf("3). Warkop\n");
-    printf("4). Bensin\n");
-    printf("5). back\n");
+    printf("\nPilih makanan:\n");
+    printf("1). Sarapan\n");
+    printf("2). Siang\n");
+    printf("3). Malam\n");
+    printf("4). Back\n");
     printf("Pilih menu: ");
-    scanf("%d", &pilih);
+    scanf("%d", &makan_option);
 
-    switch (pilih)
+    switch (makan_option)
     {
     case 1:
-        int jenis_galon;
-        printf("\njenis Galon: \n");
-        printf("1). Aqua\n");
-        printf("2). Isi ulang\n");
-        printf("opsi:");
-        scanf("%d", &jenis_galon);
-        if (jenis_galon == 1)
-        {
-            etc.galon = 21;
-        }
-        else
-        {
-            etc.galon = 7;
-        }
-        break;
     case 2:
-        printf("Kuota: ");
-        scanf("%d", &etc.kuota);
-        break;
     case 3:
-        printf("Warkop: ");
-        scanf("%d", &etc.warkop);
+        hitung_makan(conn, makan_option, dateStr);
         break;
     case 4:
-        printf("Bensin: ");
-        scanf("%d", &etc.bensin);
-        break;
-    case 5:
-        exit(0);
         menu(conn);
-
         break;
     default:
         printf("Pilihan tidak ada\n");
-        hitung_etc(conn);
+        makan_menu(conn, dateStr);
         break;
     }
+}
 
-    int total = etc.galon + etc.kuota + etc.warkop + etc.bensin;
-    printf("Total: %d\n", total);
+void etc_menu(MYSQL *conn, const char *dateStr)
+{
+    int etc_option;
 
-    char query[512];
+    printf("Pilih etc:\n");
+    printf("1). Galon\n");
+    printf("2). Paketan\n");
+    printf("3). Warkop\n");
+    printf("4). Laundry\n");
+    printf("5). Back\n");
+    printf("Pilih menu: ");
+    scanf("%d", &etc_option);
 
-    char date_str[11];
-    time_t now = time(NULL);
-    struct tm *local_time = localtime(&now);
-    strftime(date_str, sizeof(date_str), "%Y-%m-%d", local_time);
-
-    snprintf(query, sizeof(query), "INSERT INTO etc (galon, kuota, warkop, bensin, total, date) VALUES (%d, %d, %d, %d, %d, '%s')", etc.galon, etc.kuota, etc.warkop, etc.bensin, total, date_str);
-    insert_data(conn, query);
-
-    menu(conn);
+    switch (etc_option)
+    {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+        hitung_etc(conn, etc_option, dateStr);
+        break;
+    case 5:
+        menu(conn);
+        break;
+    default:
+        printf("Pilihan tidak ada\n");
+        etc_menu(conn, dateStr);
+        break;
+    }
 }
