@@ -1,8 +1,9 @@
 #include "date.h"
 #include <stdio.h>
+#include <stdlib.h> // For malloc
 #include <time.h>
 
-static void getToday(int *day, int *month, int *year)
+void getToday(int *day, int *month, int *year)
 {
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
@@ -11,7 +12,7 @@ static void getToday(int *day, int *month, int *year)
     *day = tm.tm_mday;
 }
 
-static void getYesterday(int *day, int *month, int *year)
+void getYesterday(int *day, int *month, int *year)
 {
     time_t t = time(NULL) - 86400; // Subtract 24 hours (86400 seconds)
     struct tm tm = *localtime(&t);
@@ -45,11 +46,16 @@ char* selectDate()
         break;
     default:
         printf("Invalid choice.\n");
-        selectDate();
+        return selectDate();
     }
 
-     char dateStr[11];
-    snprintf(dateStr, sizeof(dateStr), "%04d-%02d-%02d", year, month, day);
+    char *dateStr = malloc(11 * sizeof(char)); // Allocate memory for the date string
+    if (dateStr == NULL)
+    {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+
+    snprintf(dateStr, 11, "%04d-%02d-%02d", year, month, day);
     return dateStr;
 }
-

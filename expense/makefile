@@ -11,10 +11,10 @@ LDFLAGS = $(shell mysql_config --libs)
 TARGET = myprogram
 
 # Define the source files
-SRCS = main.c database.c menu.c
+SRCS = main.c database.c menu.c date.c hitung.c
 
 # Define the object files
-OBJS = main.o database.o menu.o
+OBJS = main.o database.o menu.o date.o hitung.o
 
 # Default target
 all: $(TARGET)
@@ -24,14 +24,20 @@ $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 
 # Compile each source file to an object file
-main.o: main.c types.h database.h menu.h
+main.o: main.c database.h menu.h date.h hitung.h
 	$(CC) $(CFLAGS) -c main.c
 
-database.o: database.c types.h database.h
+database.o: database.c database.h
 	$(CC) $(CFLAGS) -c database.c
 
-menu.o: menu.c types.h menu.h
+menu.o: menu.c menu.h database.h date.h hitung.h
 	$(CC) $(CFLAGS) -c menu.c
+
+date.o: date.c date.h
+	$(CC) $(CFLAGS) -c date.c
+
+hitung.o: hitung.c hitung.h database.h date.h
+	$(CC) $(CFLAGS) -c hitung.c
 
 # Clean up the build files
 clean:

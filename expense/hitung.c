@@ -8,11 +8,12 @@ void hitung_makan(MYSQL *conn, int option, const char *dateStr)
 {
     int amount, category_id;
 
-    printf("Enter amount: ");
+    // Ask for the amount and category_id
+    printf("Hargaa: ");
     scanf("%d", &amount);
-    printf("Enter category ID: ");
-    scanf("%d", &category_id);
 
+    category_id = option;
+    
     char query[256];
     snprintf(query, sizeof(query), "INSERT INTO transactions (date, amount, category_id) VALUES ('%s', %d, %d)", dateStr, amount, category_id);
 
@@ -23,10 +24,11 @@ void hitung_etc(MYSQL *conn, int option, const char *dateStr)
 {
     int amount, category_id;
 
+    // Ask for the amount and category_id
     printf("Enter amount: ");
     scanf("%d", &amount);
-    printf("Enter category ID: ");
-    scanf("%d", &category_id);
+
+    category_id = option;
 
     char query[256];
     snprintf(query, sizeof(query), "INSERT INTO transactions (date, amount, category_id) VALUES ('%s', %d, %d)", dateStr, amount, category_id);
