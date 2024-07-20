@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <mysql/mysql.h>
 #include "menu.h"
+#include "date.h"
 
 int main() {
     MYSQL *conn;
